@@ -118,20 +118,24 @@ class MPIIDataset(JointsDataset):
 
         pos_pred_src = np.transpose(preds, [1, 2, 0])
 
-        head = np.where(dataset_joints == 'head')[1][0]
-        lsho = np.where(dataset_joints == 'lsho')[1][0]
-        lelb = np.where(dataset_joints == 'lelb')[1][0]
-        lwri = np.where(dataset_joints == 'lwri')[1][0]
-        lhip = np.where(dataset_joints == 'lhip')[1][0]
-        lkne = np.where(dataset_joints == 'lkne')[1][0]
-        lank = np.where(dataset_joints == 'lank')[1][0]
+        front_bonnet = np.where(dataset_joints == 'front_bonnet')[1][0]
+        rear_light_left = np.where(dataset_joints == 'rear_light_left')[1][0]
+        top_corner_rear_left = np.where(dataset_joints == 'top_corner_rear_left')[1][0]
+        top_corner_front_left = np.where(dataset_joints == 'top_corner_front_left')[1][0]
+        indicator_light_left = np.where(dataset_joints == 'indicator_light_left')[1][0]
+        headlight_left = np.where(dataset_joints == 'headlight_left')[1][0]
+        green_yellow_corner_left = np.where(dataset_joints == 'green_yellow_corner_left')[1][0]
+        left_center_pole_top = np.where(dataset_joints == 'left_center_pole_top')[1][0]
+        left_wheel = np.where(dataset_joints == 'left_wheel')[1][0]
 
-        rsho = np.where(dataset_joints == 'rsho')[1][0]
-        relb = np.where(dataset_joints == 'relb')[1][0]
-        rwri = np.where(dataset_joints == 'rwri')[1][0]
-        rkne = np.where(dataset_joints == 'rkne')[1][0]
-        rank = np.where(dataset_joints == 'rank')[1][0]
-        rhip = np.where(dataset_joints == 'rhip')[1][0]
+        rear_light_right = np.where(dataset_joints == 'rear_light_right')[1][0]
+        top_corner_rear_right = np.where(dataset_joints == 'top_corner_rear_right')[1][0]
+        top_corner_front_right = np.where(dataset_joints == 'top_corner_front_right')[1][0]
+        indicator_light_right = np.where(dataset_joints == 'indicator_light_right')[1][0]
+        headlight_right = np.where(dataset_joints == 'headlight_right')[1][0]
+        green_yellow_corner_right = np.where(dataset_joints == 'green_yellow_corner_right')[1][0]
+        right_center_pole_top = np.where(dataset_joints == 'right_center_pole_top')[1][0]
+        right_wheel = np.where(dataset_joints == 'right_wheel')[1][0]
 
         jnt_visible = 1 - jnt_missing
         uv_error = pos_pred_src - pos_gt_src
@@ -166,13 +170,15 @@ class MPIIDataset(JointsDataset):
         jnt_ratio = jnt_count / np.sum(jnt_count).astype(np.float64)
 
         name_value = [
-            ('Head', PCKh[head]),
-            ('Shoulder', 0.5 * (PCKh[lsho] + PCKh[rsho])),
-            ('Elbow', 0.5 * (PCKh[lelb] + PCKh[relb])),
-            ('Wrist', 0.5 * (PCKh[lwri] + PCKh[rwri])),
-            ('Hip', 0.5 * (PCKh[lhip] + PCKh[rhip])),
-            ('Knee', 0.5 * (PCKh[lkne] + PCKh[rkne])),
-            ('Ankle', 0.5 * (PCKh[lank] + PCKh[rank])),
+            ('front_bonnet', PCKh[head]),
+            ('rear_light', 0.5 * (PCKh[lsho] + PCKh[rsho])),
+            ('top_corner_rear', 0.5 * (PCKh[lelb] + PCKh[relb])),
+            ('top_corner_front', 0.5 * (PCKh[lwri] + PCKh[rwri])),
+            ('indicator_light', 0.5 * (PCKh[lhip] + PCKh[rhip])),
+            ('headlight', 0.5 * (PCKh[lkne] + PCKh[rkne])),
+            ('green_yellow_corner', 0.5 * (PCKh[lank] + PCKh[rank])),
+            ('center_pole_top', 0.5 * (PCKh[lkne] + PCKh[rkne])),
+            ('wheel', 0.5 * (PCKh[lkne] + PCKh[rkne])),
             ('Mean', np.sum(PCKh * jnt_ratio)),
             ('Mean@0.1', np.sum(pckAll[11, :] * jnt_ratio))
         ]
